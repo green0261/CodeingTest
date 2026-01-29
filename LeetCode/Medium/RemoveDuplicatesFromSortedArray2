@@ -1,0 +1,18 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        
+        int cnt = 1; //동일 숫자 카운트
+        int lastIdx = 0; //확정된 마지막 인덱스
+
+        for(int i = 1 ; i < nums.length ; i++){
+            if(nums[i-1] != nums[i]){ //이전 인덱스 값과 상이
+                cnt = 1;              //카운트 리셋
+                nums[++lastIdx] = nums[i];  //현재 값 재배치
+            }else if(cnt < 2){       //지금이 두 번째 동일 값
+                nums[++lastIdx] = nums[i]; //현재 값 재배치
+                cnt++;              //카운트 + 1
+            }
+        }
+        return lastIdx+1;
+    }
+}
