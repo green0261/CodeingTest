@@ -1,0 +1,24 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int searchIdx = 0; //탐색을 시작할 인덱스
+        for(int j = 0 ; j < nums2.length ; j++){ //nums2
+            for(int i = searchIdx ; i < nums1.length ; i++){ //nums1
+
+                if(i < m && nums1[i] <= nums2[j]) continue;
+
+                    int lastIdx = m;  //값을 밀기 시작할 인덱스
+
+                    while(lastIdx > i){  //nums2[j]를 넣어야 하는 인덱스까지만 밀기
+                        nums1[lastIdx] = nums1[lastIdx-1];//값 한 칸 밀기
+
+                        lastIdx--;                           //기준점 갱신
+                    }
+
+                    nums1[i] = nums2[j];      //nums1로 병합
+                    m++;                      //nums1의 실제 값 개수 갱신
+                    searchIdx = i+1;           //탐색해야 하는 인덱스 갱신
+                    break;
+            }
+        }
+    }
+}
