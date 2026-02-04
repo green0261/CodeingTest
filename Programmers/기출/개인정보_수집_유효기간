@@ -1,0 +1,55 @@
+import java.util.*;
+import java.time.LocalDate;
+
+class Solution {
+    public int[] solution(String today, String[] terms, String[] privacies) {
+
+        // 약관 만료 기준 날짜 저장(today 기준 n개월 전)
+        HashMap<String,LocalDate> map = new HashMap<>();
+        
+        //파기해야하는 개인정보 인덱스 저장
+        ArrayList<Integer> list = new ArrayList<>();
+        
+         // 기준 날짜를 LocalDate로 변환
+        LocalDate td = toLocalDate(today);
+
+        //약관별 폐기 날짜 계산(이 날짜와 같거나 이전이면 폐기)
+        for(String term : terms){
+            String[] arr = term.split(" ");
+            
+            //today에서 유효기간을 뺀 폐기 날짜
+            LocalDate minusMonth = td.minusMonths(Integer.valueOf(arr[1]));
+            
+            //key: 약관 종류, value: 폐기 날짜
+            map.put(arr[0],minusMonth);
+            
+        }
+        
+        //개인정보 수집 일자와 폐기 날짜 비교
+        for(int i = 0 ; i < privacies.length ; i++){
+            String[] pArr = privacies[i].split(" ");
+            LocalDate pDate = toLocalDate(pArr[0]);
+            
+            //폐기 날짜 >= 개인정보 수집일
+            if(!pDate.isAfter(map.get(pArr[1]))){
+                list.add(i+1);
+                
+            }
+            
+        }
+        
+        //결과를 int 배열로 변환
+        int[] answer = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            answer[i] = list.get(i);
+        }
+
+        return answer;
+    }
+    
+    //'년.월.일' 형식 문자열을 LocalDate 객체로 생성
+    public LocalDate toLocalDate(String date){
+        String[] t = date.split("\\.");
+        return LocalDate.of(Integer.valueOf(t[0]),Integer.valueOf(t[1]),Integer.valueOf(t[2]));
+    }
+}
