@@ -1,0 +1,16 @@
+class Solution {
+    public int reverseBits(int n) {
+        int cnt = 31;
+        int result = 0;
+        while(n > 0){
+            int bit = n%2;
+            if(bit == 1){
+                result += Math.pow(2,cnt);  
+            }
+            cnt--;
+            n = n/2;
+            
+        }
+        return result;
+    }
+}
