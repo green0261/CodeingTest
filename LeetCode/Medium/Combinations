@@ -1,0 +1,25 @@
+class Solution {
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        backTracking(result, new ArrayList<Integer>(), n, k);
+
+        return result;
+    }
+
+    public void backTracking(List<List<Integer>> result, List<Integer> list, int start, int cnt){
+        if(list.size() == cnt){
+            result.add(new ArrayList(list));
+            return;
+        }
+
+        for(int num = start ; num > 0 ; num--){
+            list.add(num);
+
+            backTracking(result, list, num - 1, cnt);      
+
+            list.remove(list.size()-1);
+        }
+
+    }
+}
