@@ -30,10 +30,10 @@ class Solution {
         int inIdx = inMap.get(rootVal);
 
         //4. 현재 노드의 왼쪽 서브트리 탐색(범위 : start ~ 현재 노드 인덱스 -1)
-        node.left = build(pre, inMap, start, inIdx - 1);
+        node.left = backTracking(pre, inMap, start, inIdx - 1);
 
         //5. 현재 노드의 오른쪽 서브트리 탐색(범위 : 현재 노드 인덱스 +1 ~ end)
-        node.right = build(pre, inMap, inIdx + 1, end);
+        node.right = backTracking(pre, inMap, inIdx + 1, end);
 
         //6. 노드 반환
         return node;
