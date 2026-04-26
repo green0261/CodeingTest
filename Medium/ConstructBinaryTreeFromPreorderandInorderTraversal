@@ -1,0 +1,41 @@
+class Solution {
+    //preorder의 인덱스
+    int pIdx = 0;
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+
+        //key:inorder의 값, value: inorder의 인덱스
+        Map<Integer, Integer> inMap = new HashMap<>();
+
+        for (int i = 0; i < inorder.length; i++) {
+            inMap.put(inorder[i], i);
+        }
+
+        //트리를 만들기 위한 메서드 호출 (범위:inorder 전체)
+        return backTracking(preorder, inMap, 0, inorder.length - 1);
+    }
+
+    private TreeNode backTracking(int[] pre, Map<Integer, Integer> inMap, int start, int end) {
+        
+        // 1. 종료 조건: 서브트리의 범위가 역전되면 더 이상 자식 노드가 없음
+        if (start > end) {
+            return null;
+        }
+
+        // 2. preOrder 순으로 현재 루트 노드 생성
+        int rootVal = pre[pIdx++];
+        TreeNode node = new TreeNode(rootVal);
+
+        // 3. 중위 순회에서 루트 노드의 위치를 찾아 서브트리 범위 결정
+        int inIdx = inMap.get(rootVal);
+
+        //4. 현재 노드의 왼쪽 서브트리 탐색(범위 : start ~ 현재 노드 인덱스 -1)
+        node.left = build(pre, inMap, start, inIdx - 1);
+
+        //5. 현재 노드의 오른쪽 서브트리 탐색(범위 : 현재 노드 인덱스 +1 ~ end)
+        node.right = build(pre, inMap, inIdx + 1, end);
+
+        //6. 노드 반환
+        return node;
+    }
+}
