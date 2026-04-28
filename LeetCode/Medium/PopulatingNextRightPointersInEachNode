@@ -1,0 +1,55 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+    
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+
+    public Node connect(Node root) {
+        if(root == null) return null;
+
+       dfs(root);
+
+       return root;
+    }
+
+    //각 노드의 next 노드 설정
+    public void dfs(Node root){
+
+        //리프노드인 경우 종료
+        if(root.left == null){
+            return;
+        }
+
+        //왼쪽 자식 next = 오른쪽 자식
+        root.left.next = root.right;
+        
+        //현재 노드의 next가 있는 경우
+        if(root.next != null){
+            //오른쪽 자식 next = 현재 노드 next.left 
+            root.right.next = root.next.left;
+        }
+
+        //순차적으로 내려가며 연결
+        dfs(root.left);
+        dfs(root.right);
+    }
+}
