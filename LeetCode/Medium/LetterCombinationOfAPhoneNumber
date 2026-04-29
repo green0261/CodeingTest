@@ -1,0 +1,33 @@
+class Solution {
+
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<String>();
+
+        String[] arr = {"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+
+        backTracking(result, digits, arr, 0, "");
+
+        return result;
+    }
+
+    
+    public void backTracking(List<String> result, String digits, String[] arr, int idx, String str){
+
+        if(digits.length() <= idx){
+            result.add(str);
+            return;
+        }
+
+        String letter = arr[digits.charAt(idx)-'0'];
+
+        for(int i = 0 ; i < letter.length() ; i++){
+            
+            str += String.valueOf(letter.charAt(i));
+
+            backTracking(result, digits, arr, idx+1, str);
+            
+            str = str.substring(0, str.length()-1);
+
+        }
+    }
+}
